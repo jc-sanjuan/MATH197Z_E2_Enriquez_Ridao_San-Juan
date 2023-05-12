@@ -6,7 +6,7 @@ Jan Catherine San Juan
 Date: 18 May 2023
 """
 import numpy as np
-from optquad import steepest_descent, linear, normal
+from optquad import steepest_descent, linear, normal, residual
 import sys
 
 def quadraticcost(A,x,b):
