@@ -167,3 +167,56 @@ def normal(fun, A, x, b, grad, tol=1e-6, maxit=50000):
         
 
     return x, it, grad_norm
+
+def residual(fun, A, x, b, grad, tol=1e-6, maxit=50000):
+
+    """
+	Parameters
+	----------
+		fun:callable
+			objective function
+        A:matrix
+            input n dimensional matrix
+		x: array
+			initial points
+        b:array
+           input n dimensional array
+		grad:callable
+			gradient of the objective function
+		tol:float
+			tolerance of the method (default is 1e-10)
+		maxit:int
+			maximum number of iterationd
+
+	Returns
+	-------
+		tuple(x,grad_norm,it)
+			x:array
+				approximate minimizer or last iteration
+            it:int
+				number of iteration
+			grad_norm:float
+				norm of the gradient at x
+			
+	"""
+    g = grad(A,x,b)
+    grad_norm = np.linalg.norm(g)
+    d = -g
+    it = 0
+	
+    while grad_norm>=tol and it<maxit:
+        w = np.dot(A,d)
+        w_norm = np.linalg.norm(w)
+        alpha = np.negative((np.dot(np.transpose(g),w))/(w_norm**2))
+        
+        x = x + alpha*d
+        g = g + alpha*w
+        
+        B = (np.transpose(np.dot(A,g)))/(w_norm**2)
+        d = -g + np.dot(B,d)
+        
+        grad_norm = np.linalg.norm(g)
+        it = it + 1
+        
+
+    return x, it, grad_norm
