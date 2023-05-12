@@ -1,12 +1,13 @@
 """
-MATH 197 Z Exercise 1
+MATH 197 Z Exercise 2
 Name: Deangelo Enriquez
 Raphaell Ridao
 Jan Catherine San Juan
-Date: 16 April 2023
+Date: 18 May 2023
 """
 import numpy as np
-from optquad import steepest_descent
+from optquad import steepest_descent, linear, normal
+import sys
 
 def quadraticcost(A,x,b):
     """
@@ -59,14 +60,28 @@ if __name__ == "__main__":
     R = np.random.rand(3,3)
     A = np.dot(R,R)+10.*np.identity(3)
     """
-    gamma = int(input("Input a value: "))
+    choice = input("Choose a method:\n 1. Steepest Descent Method\n 2. Linear Conjugate Gradient Method\n 3. Conjugate Gradient Normal Residual Method\n 4. Conjugate Residual Method\n Input name/number/acronym: ")
+    gamma = int(input("Input a numerical value: "))
+    
     A = np.array([[1,0,0],[0,gamma,0],[0,0,gamma**2]])
     x = np.array([[0],[0],[0]])
     b = (-1)*np.array([[1],[1],[1]])
 
     K = gamma**2
     
-    x, it, grad_norm = steepest_descent(quadraticcost, A, x, b, grad_quad)
+    if choice == 'Steepest Descent Method' or choice == '1':
+        x, it, grad_norm = steepest_descent(quadraticcost, A, x, b, grad_quad)
+    elif choice == 'Linear Conjugate Gradient Method' or choice == '2':
+        x, it, grad_norm = linear(quadraticcost, A, x, b, grad_quad)
+    elif choice == 'Conjugate Gradient Normal Residual Method' or choice == '3':
+        x, it, grad_norm = normal(quadraticcost, A, x, b, grad_quad)
+    elif choice == 'Conjugate Residual Method' or choice == '4':
+        x, it, grad_norm = normal(quadraticcost, A, x, b, grad_quad)#change function name if meron na
+    else:
+        print("Please input a valid number or the exact method name.")
+        sys.exit()
+        
+
     print("Approximate Minimizer: {}" .format(x))
     print("Gradient Norm 		: {}" .format(grad_norm))
     print("Number of Iterations	: {}" .format(it))
