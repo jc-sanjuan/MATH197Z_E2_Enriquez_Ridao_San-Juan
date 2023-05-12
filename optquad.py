@@ -144,8 +144,8 @@ def normal(fun, A, x, b, grad, tol=1e-6, maxit=50000):
 	"""
     g = grad(A,x,b)
     grad_norm = np.linalg.norm(g)
-    d = np.dot((-1)*np.transpose(A),g)
-    z = -d
+    d = np.dot(np.negative(np.transpose(A)),g)
+    z = np.negative(d)
     z_norm = np.linalg.norm(z)
     it = 0
 	
@@ -155,12 +155,14 @@ def normal(fun, A, x, b, grad, tol=1e-6, maxit=50000):
         alpha = (z_norm**2)/(w_norm**2)
 	    
         z_normPrev = z_norm
+        
         x = x + alpha*d
         g = g + alpha*w
-        grad_norm = np.linalg.norm(grad(A,x,b))
+        z = np.dot(np.transpose(A),g)
+        grad_norm = np.linalg.norm(g)
         z_norm = np.linalg.norm(z)
         B = (z_norm**2)/(z_normPrev**2)
-        d = -z_norm + np.dot(B,d)
+        d = -z + np.dot(B,d)
         it = it + 1
         
 
