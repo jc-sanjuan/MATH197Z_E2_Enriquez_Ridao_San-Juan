@@ -60,7 +60,7 @@ if __name__ == "__main__":
     R = np.random.rand(3,3)
     A = np.dot(R,R)+10.*np.identity(3)
     """
-    choice = input("Choose a method:\n 1. Steepest Descent Method\n 2. Linear Conjugate Gradient Method\n 3. Conjugate Gradient Normal Residual Method\n 4. Conjugate Residual Method\n Input name/number/acronym: ")
+    choice = input("Choose a method:\n 1. Steepest Descent Method\n 2. Linear Conjugate Gradient Method\n 3. Conjugate Gradient Normal Residual Method\n 4. Conjugate Residual Method\n Input name/number: ")
     gamma = int(input("Input a numerical value: "))
     
     A = np.array([[1,0,0],[0,gamma,0],[0,0,gamma**2]])
