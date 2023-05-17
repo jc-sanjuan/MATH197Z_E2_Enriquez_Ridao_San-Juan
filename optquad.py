@@ -56,8 +56,8 @@ def steepest_descent(fun, A, x, b, grad, tol=1e-6, maxit=50000):
     
     eigmax = np.max(KA[0])
     eigmin = np.min(KA[0])
-    K = np.linalg.norm(eigmax)/np.linalg.norm(eigmin)
-    
+    K = np.abs(eigmax)/np.abs(eigmin)
+   
     while grad_norm>=tol and it<maxit:
         
         d = b-np.dot(A,x)
