@@ -75,7 +75,7 @@ if __name__ == "__main__":
     elif choice == 'Conjugate Gradient Normal Residual Method' or choice == '3':
         x, it, grad_norm = normal(quadraticcost, A, x, b, grad_quad)
     elif choice == 'Conjugate Residual Method' or choice == '4':
-        x, it, grad_norm = normal(quadraticcost, A, x, b, grad_quad)#change function name if meron na
+        x, it, grad_norm = residual(quadraticcost, A, x, b, grad_quad)
     else:
         print("Please input a valid number or the exact method name.")
         sys.exit()
