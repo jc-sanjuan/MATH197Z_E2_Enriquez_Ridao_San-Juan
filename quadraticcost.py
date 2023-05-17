@@ -67,10 +67,9 @@ if __name__ == "__main__":
     x = np.array([[0],[0],[0]])
     b = (-1)*np.array([[1],[1],[1]])
 
-    K = gamma**2
     
     if choice == 'Steepest Descent Method' or choice == '1':
-        x, it, grad_norm = steepest_descent(quadraticcost, A, x, b, grad_quad)
+        x, it, grad_norm, K, k = steepest_descent(quadraticcost, A, x, b, grad_quad)
     elif choice == 'Linear Conjugate Gradient Method' or choice == '2':
         x, it, grad_norm = linear(quadraticcost, A, x, b, grad_quad)
     elif choice == 'Conjugate Gradient Normal Residual Method' or choice == '3':
@@ -81,9 +80,12 @@ if __name__ == "__main__":
         print("Please input a valid number or the exact method name.")
         sys.exit()
         
-
+    
     print("Approximate Minimizer: {}" .format(x))
     print("Gradient Norm 		: {}" .format(grad_norm))
     print("Number of Iterations	: {}" .format(it))
     print("Function Value		: {}" .format(quadraticcost(A,x,b)))
-    print("K(A)		: {}" .format(K))
+    if choice == 'Steepest Descent Method' or choice == '1':
+        print("K(A)		            : {}" .format(K))
+        print("k (iterations)	    : {}" .format(k))
+        

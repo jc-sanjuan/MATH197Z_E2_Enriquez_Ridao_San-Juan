@@ -31,6 +31,7 @@ def steepest_descent(fun, A, x, b, grad, tol=1e-6, maxit=50000):
 			tolerance of the method (default is 1e-10)
 		maxit:int
 			maximum number of iterationd
+        
 
 	Returns
 	-------
@@ -41,12 +42,22 @@ def steepest_descent(fun, A, x, b, grad, tol=1e-6, maxit=50000):
 				number of iteration
 			grad_norm:float
 				norm of the gradient at x
+            K:float
+                spectral condition number
+            k:float
+                number of iterations needed to ensure ||ek||<tolerance
 			
 	"""
 
     grad_norm = np.linalg.norm(grad(A,x,b))
     it = 0
-
+    x0 = x
+    KA = np.linalg.eig(A)
+    
+    eigmax = np.max(KA[0])
+    eigmin = np.min(KA[0])
+    K = np.linalg.norm(eigmax)/np.linalg.norm(eigmin)
+    
     while grad_norm>=tol and it<maxit:
         
         d = b-np.dot(A,x)
@@ -55,9 +66,15 @@ def steepest_descent(fun, A, x, b, grad, tol=1e-6, maxit=50000):
         x = x + alpha*d
         grad_norm = np.linalg.norm(grad(A,x,b))
         it = it + 1
+    base = (K-1)/(K+1)
+    #k = np.log(1e-6/(np.sqrt(K)*np.linalg.norm(x0-x)))/np.log((K-1)/(K+1))
+    if base == 0:
+        k = 1 # limit of (1 - 2/k+1) as k -> inf
+    else:
+        k = np.emath.logn(base, 1e-6/(np.sqrt(K)*np.linalg.norm(x0-x)))
         
 
-    return x, it, grad_norm
+    return x, it, grad_norm, K, k
 
 def linear(fun, A, x, b, grad, tol=1e-6, maxit=50000):
 
